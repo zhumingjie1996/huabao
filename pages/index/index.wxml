@@ -1,0 +1,9 @@
+<!--index.wxml-->
+<view class="container">
+  <van-button type="default">默认按钮</van-button>
+  <van-button type="primary">主要按钮</van-button>
+  <van-button type="info">信息按钮</van-button>
+  <van-button type="warning">警告按钮</van-button>
+  <van-button type="danger">危险按钮</van-button>
+  <!-- <van-search value="{{ 123 }}" placeholder="请输入搜索关键词" /> -->
+</view>
