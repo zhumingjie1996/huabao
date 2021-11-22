@@ -1,0 +1,20 @@
+/* pages/productionDetail/index.wxss */
+
+.button{
+    
+}
+
+.button1{
+    position: fixed;
+    width: 60%;
+    left: 5%;
+    position: fixed;
+    bottom: 50rpx;
+}
+
+.button2{
+    position: fixed;
+    width: 25%;
+    right: 5%;
+    bottom: 50rpx;
+}

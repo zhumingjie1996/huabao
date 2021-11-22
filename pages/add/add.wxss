@@ -1,0 +1,8 @@
+/* pages/add/add.wxss */
+
+.button {
+    position: fixed;
+    width: 80%;
+    bottom: 50rpx;
+    left: 10%;
+}

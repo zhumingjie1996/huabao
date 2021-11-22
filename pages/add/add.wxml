@@ -1,0 +1,10 @@
+<!--pages/add/add.wxml-->
+<van-cell-group>
+    <van-field model:value="{{ name }}" label="品名" placeholder="请输入品名" size="large" />
+    <van-field model:value="{{ nameCode }}" label="简码" placeholder="请输入简码" size="large" />
+    <van-field model:value="{{ spec }}" label="规格" placeholder="请输入规格" size="large" />
+    <van-field model:value="{{ num }}" label="数量" type="digit" placeholder="请输入数量" size="large" />
+    <van-field model:value="{{ unit }}" label="单位" placeholder="请输入单位" size="large" />
+    <van-field model:value="{{ price }}" label="单价（元）" type="digit" placeholder="请输入单价" size="large" />
+</van-cell-group>
+<van-button class="button" type="primary" block color='#000' round bindtap="commit">确定</van-button>
