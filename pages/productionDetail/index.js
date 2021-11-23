@@ -5,7 +5,7 @@ Page({
      * 页面的初始数据
      */
     data: {
-
+        isChange:false
     },
 
     /**
@@ -16,8 +16,52 @@ Page({
         const eventChannel = this.getOpenerEventChannel()
         // 监听acceptDataFromOpenerPage事件，获取上一页面通过eventChannel传送到当前页面的数据
         eventChannel.on('acceptDataFromOpenerPage', function (data) {
+            console.log(data);
             _this.setData({
-                ...data
+                ...data.data
+            })
+        })
+    },
+
+    // 只在修改了指定的参数之后才显示提交按钮
+    onChange:function(){
+        let _this = this;
+        if(_this.data.isChange) return;
+        _this.setData({
+            isChange:true
+        })
+    },
+    onChangeStepper:function(e){
+        let _this = this;
+        if(_this.data.isChange) return;
+        _this.setData({
+            isChange:true
+        });
+        let changeNum = e.detail;
+        _this.setData({
+            num:changeNum
+        })
+    },
+
+    // 提交修改
+    commitChange:function(){
+        let _this = this;
+        wx.showLoading();
+        wx.cloud.callFunction({
+            name:"updataProduction",
+            data:{
+                id:_this.data.id,
+                num:_this.data.num,
+                price:_this.data.price
+            }
+        }).then(()=>{
+            wx.hideLoading({
+              success: (res) => {
+                  wx.showToast({
+                    title: '修改成功',
+                    icon:'success'
+                  })
+              },
             })
         })
     },
@@ -34,7 +78,7 @@ Page({
                         data:{
                             name:'productionList',
                             whereObj:{
-                                id:_this.data.data.id
+                                id:_this.data.id
                             }
                         }
                     }).then((res) => {

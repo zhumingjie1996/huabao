@@ -1,20 +1,28 @@
 /* pages/productionDetail/index.wxss */
 
-.button{
-    
-}
-
 .button1{
+    opacity: 0;
     position: fixed;
-    width: 60%;
+    width: 0%;
     left: 5%;
     position: fixed;
     bottom: 50rpx;
+    transition:.3s linear all;
 }
 
 .button2{
     position: fixed;
-    width: 25%;
+    width: 90%;
     right: 5%;
     bottom: 50rpx;
+    transition:.3s linear all;
+}
+
+.buttonChanged1{
+    opacity: 1;
+    width: 60%;
+}
+
+.buttonChanged2{
+    width: 25%;
 }

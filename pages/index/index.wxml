@@ -11,7 +11,10 @@
       <van-index-anchor index="{{item._id}}" />
       <van-cell  wx:for="{{item.master_data}}" wx:for-item="itemInner" wx:for-index="indexInner" wx:key="indexInner" bindtap="showDetail" data-name="{{itemInner.name}}" data-namecode="{{itemInner.nameCode}}" data-num="{{itemInner.num}}" data-price="{{itemInner.price}}" data-spec="{{itemInner.spec}}" data-unit="{{itemInner.unit}}" data-id="{{itemInner._id}}">
         <view slot="title">
-            <view class="van-cell-text">{{itemInner.name}}<van-tag round style="margin-left: 20rpx;" color="#eee" text-color="#000">{{itemInner.spec}}</van-tag>
+            <view class="van-cell-text">
+              {{itemInner.name}}
+              <van-tag round style="margin-left: 20rpx;" color="#eee" text-color="#000">{{itemInner.spec}}</van-tag>
+              <van-tag round style="margin-left: 20rpx;" color="#eee" text-color="#000">{{itemInner.num + itemInner.unit}}</van-tag>
             </view>
         </view>
     </van-cell>

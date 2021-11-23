@@ -2,7 +2,8 @@
     "pages": [
         "pages/index/index",
         "pages/add/add",
-        "pages/productionDetail/index"
+        "pages/productionDetail/index",
+        "pages/search/index"
     ],
     "window": {
         "backgroundTextStyle": "light",
@@ -21,6 +22,12 @@
                 "iconPath": "assets/icons/integral.png",
                 "selectedIconPath": "assets/icons/integral-fill.png"
             },
+            {
+              "pagePath": "pages/search/index",
+              "text": "搜索",
+              "iconPath": "assets/icons/search.png",
+              "selectedIconPath": "assets/icons/search-fill.png"
+          },
             {
                 "pagePath": "pages/add/add",
                 "text": "增加",
