@@ -36,7 +36,8 @@ Page({
                         name: 'addProduction',
                         data: {
                             ..._this.data,
-                            initials: _this.data.nameCode.substr(0, 1)
+                            initials: _this.data.nameCode.substr(0, 1),
+                            // initialsChartAt:_this.data.nameCode.substr(0,1).charCodeAt()
                         }
                     })
                 }else{
