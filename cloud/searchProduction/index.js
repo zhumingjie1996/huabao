@@ -13,6 +13,16 @@ exports.main = async (event, context) => {
                 regexp: '.*' + event.key,
                 options: 'i',
             })
+        }, {
+            name: db.RegExp({
+                regexp: '.*' + event.key,
+                options: 'i',
+            })
+        }, {
+            spec: db.RegExp({
+                regexp: '.*' + event.key,
+                options: 'i',
+            })
         }]))
         .limit(20)
         .get()

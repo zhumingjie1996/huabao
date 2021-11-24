@@ -1,5 +1,5 @@
 <!--pages/search/index.wxml-->
-<van-search model:value="{{ value }}" placeholder="请输入简码" bind:change="change" focus="{{true}}" />
+<van-search model:value="{{ value }}" placeholder="简码/名称/规格" bind:change="change" focus="{{true}}" />
 <van-cell-group>
   <van-cell wx:for="{{searchList}}" wx:for-index="index" wx:for-item="item" wx:key="index" title="{{item.name}}" value="{{item.num + item.unit}}" label="{{item.spec}}" 
   bindtap="showDetail" data-name="{{item.name}}" data-namecode="{{item.nameCode}}" data-num="{{item.num}}" data-price="{{item.price}}" data-spec="{{item.spec}}" data-unit="{{item.unit}}" data-id="{{item._id}}"
