@@ -13,37 +13,59 @@ Page({
         price: "",
     },
 
-    commit:function(){
+    commit: function () {
         let _this = this;
-        if(_this.data.name === '' || _this.data.nameCode === '' || _this.data.spec === '' || _this.data.num === '' || _this.data.unit === '' || _this.data.price === ''){
+        if (_this.data.name === '' || _this.data.nameCode === '' || _this.data.spec === '' || _this.data.num === '' || _this.data.unit === '' || _this.data.price === '') {
             wx.showToast({
-              title: '请完善信息',
-              icon:'error'
+                title: '请完善信息',
+                icon: 'error'
             });
             return;
         }
         wx.showLoading();
         wx.cloud.callFunction({
-            name:'addProduction',
-            data:{
-                ..._this.data,
-                initials:_this.data.nameCode.substr(0,1)
-            }
-        }).then(()=>{
-            wx.hideLoading();
-            wx.showToast({
-              title: '添加成功',
-              icon:'success'
-            });
-            _this.setData({
-                name: "",
-                nameCode: "",
-                spec: "",
-                num: "",
-                unit: "",
-                price: "",
+                name: 'getProductionByName',
+                data: {
+                    name: _this.data.name,
+                    spec: _this.data.spec
+                }
+            }).then(res => {
+                console.log(res);
+                if (res.result.data && res.result.data.length === 0) {
+                    return wx.cloud.callFunction({
+                        name: 'addProduction',
+                        data: {
+                            ..._this.data,
+                            initials: _this.data.nameCode.substr(0, 1)
+                        }
+                    })
+                }else{
+                    throw 'has added'
+                }
+            }).then(() => {
+                wx.hideLoading();
+                wx.showToast({
+                    title: '添加成功',
+                    icon: 'success'
+                });
+                _this.setData({
+                    name: "",
+                    nameCode: "",
+                    spec: "",
+                    num: "",
+                    unit: "",
+                    price: "",
+                })
+            }).catch(e=>{
+                wx.hideLoading({
+                  success: (res) => {
+                      wx.showToast({
+                        title: '勿重复添加',
+                        icon:'error'
+                      })
+                  },
+                })
             })
-        })
     },
 
     /**
