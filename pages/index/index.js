@@ -20,7 +20,7 @@ Page({
     }).then(res=>{
       let list = [];
       res.map((item)=>{
-        list.push(item._id)
+        list.push(item._id.initials[0])
       });
       return list;
     }).then(res=>{
@@ -30,10 +30,21 @@ Page({
       wx.hideLoading()
     })
   },
+  getProductionTotalNum(){
+    let _this = this;
+    wx.cloud.callFunction({
+      name:'getProductionTotalNum'
+    }).then(res=>{
+      _this.setData({
+        totalNum:res.result.total
+      })
+    })
+  },
   onLoad() {},
   onShow(){
     let _this = this;
     _this.getProductionList();
+    _this.getProductionTotalNum();
   },
   showDetail:function(e){
     console.log(e);

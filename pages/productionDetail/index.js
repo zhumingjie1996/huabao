@@ -33,14 +33,15 @@ Page({
     },
     onChangeStepper:function(e){
         let _this = this;
-        if(_this.data.isChange) return;
-        _this.setData({
-            isChange:true
-        });
         let changeNum = e.detail;
         _this.setData({
             num:changeNum
         })
+        if(_this.data.isChange) return;
+        _this.setData({
+            isChange:true
+        });
+        
     },
 
     // 提交修改

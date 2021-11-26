@@ -49,7 +49,9 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-
+        let _this = this;
+        let e = {detail:_this.data.value}
+        _this.change(e);
     },
 
     /**
