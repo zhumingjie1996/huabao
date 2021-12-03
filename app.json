@@ -1,39 +1,46 @@
 {
-    "pages": [
-        "pages/index/index",
-        "pages/add/add",
-        "pages/productionDetail/index",
-        "pages/search/index"
-    ],
-    "window": {
-        "backgroundTextStyle": "light",
-        "navigationBarBackgroundColor": "#fff",
-        "navigationBarTitleText": "华宝五金",
-        "navigationBarTextStyle": "black"
-    },
-    "sitemapLocation": "sitemap.json",
-    "lazyCodeLoading": "requiredComponents",
-    "tabBar": {
-        "selectedColor": "#000000",
-        "list": [
-            {
-                "pagePath": "pages/index/index",
-                "text": "全部",
-                "iconPath": "assets/icons/integral.png",
-                "selectedIconPath": "assets/icons/integral-fill.png"
-            },
-            {
-              "pagePath": "pages/search/index",
-              "text": "搜索",
-              "iconPath": "assets/icons/search.png",
-              "selectedIconPath": "assets/icons/search-fill.png"
-          },
-            {
-                "pagePath": "pages/add/add",
-                "text": "增加",
-                "iconPath": "assets/icons/add-fill.png",
-                "selectedIconPath": "assets/icons/add.png"
-            }
-        ]
-    }
+  "pages": [
+    "pages/index/index",
+    "pages/add/add",
+    "pages/productionDetail/index",
+    "pages/search/index",
+    "pages/record/index"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "华宝五金",
+    "navigationBarTextStyle": "black"
+  },
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents",
+  "tabBar": {
+    "selectedColor": "#000000",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "全部",
+        "iconPath": "assets/icons/integral.png",
+        "selectedIconPath": "assets/icons/integral-fill.png"
+      },
+      {
+        "pagePath": "pages/search/index",
+        "text": "搜索",
+        "iconPath": "assets/icons/search.png",
+        "selectedIconPath": "assets/icons/search-fill.png"
+      },
+      {
+        "pagePath": "pages/add/add",
+        "text": "增加",
+        "iconPath": "assets/icons/add-fill.png",
+        "selectedIconPath": "assets/icons/add.png"
+      },
+      {
+        "pagePath": "pages/record/index",
+        "text": "记录",
+        "iconPath": "assets/icons/order.png",
+        "selectedIconPath": "assets/icons/order-fill.png"
+      }
+    ]
+  }
 }

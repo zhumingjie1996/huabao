@@ -1,0 +1,10 @@
+{
+  "usingComponents": {
+    "van-cell": "@vant/weapp/cell/index",
+    "van-tag": "@vant/weapp/tag/index",
+    "van-dialog": "@vant/weapp/dialog/index",
+    "van-notice-bar": "@vant/weapp/notice-bar/index"
+  },
+  "enablePullDownRefresh":true,
+  "onReachBottomDistance":100
+}

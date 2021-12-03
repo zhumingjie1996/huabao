@@ -1,0 +1,26 @@
+<!--pages/record/index.wxml-->
+<van-notice-bar
+  left-icon="volume-o"
+  text="下拉页面刷新"
+  mode='closeable'
+/>
+<van-cell wx:for="{{operationList}}" wx:for-index="index" wx:for-item="item" wx:key="index" center
+  label="{{item.date}}"
+  value="{{item.operateType === 'add' ? item.num + item.unit : ''}}"
+  is-link="{{item.operateType === 'updata'}}"
+  clickable="{{item.operateType === 'updata'}}"
+  data-type="{{item.operateType}}"
+  data-olddata = "{{item.operateType === 'updata' ? item.oldData : ''}}"
+  data-newdata = "{{item.operateType === 'updata' ? item.newData : ''}}"
+  bind:click="showUpdataDetail"
+  >
+  <view slot="title">
+    <view class="van-cell-text">
+    {{item.operateType === 'updata' ? item.oldData.name : item.name}}
+      <van-tag wx:if="{{item.operateType === 'updata'}}" round style="margin-left: 20rpx;" color="#eee" text-color="#000">{{item.oldData.spec}}</van-tag>
+      <van-tag wx:else round style="margin-left: 20rpx;" color="#eee" text-color="#000">{{item.spec}}</van-tag>
+      <van-tag round style="margin-left: 20rpx;" color="{{item.operateType === 'add' ? 'green' : (item.operateType === 'delete' ? 'red' : 'blue')}}" text-color="#fff">{{item.operateName}}</van-tag>
+    </view>
+  </view>
+</van-cell>
+<van-dialog id="van-dialog" />

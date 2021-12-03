@@ -79,7 +79,9 @@ Page({
                         data:{
                             name:'productionList',
                             whereObj:{
-                                id:_this.data.id
+                                id:_this.data.id,
+                                name:_this.data.name,
+                                spec:_this.data.spec
                             }
                         }
                     }).then((res) => {

@@ -9,5 +9,16 @@ const db = cloud.database();
 exports.main = async (event, context) => {
     let collectionName = event.name;
     let whereObj = event.whereObj;
-    db.collection(collectionName).doc(whereObj.id).remove()
+    let date = db.serverDate();
+    return await db.collection(collectionName).doc(whereObj.id).remove().then(()=>{
+        db.collection('operationList').add({
+            data:{
+                ...whereObj,
+                operateType:'delete',
+                operateName:'删除',
+                productionId:whereObj.id,
+                date
+            }
+        })
+    })
 }

@@ -5,6 +5,7 @@
 <van-cell center title="单价（{{ '元/' + unit }}）"><van-field model:value="{{ price }}" border="{{ false }}" type="digit" bind:change="onChange" input-align="right"/></van-cell>
 
 <van-cell center title="数量"><van-stepper input-width="40px" button-size="32px" model:value="{{ num }}" bind:change="onChangeStepper" min='0' /></van-cell>
+<!-- <van-cell title="操作记录" is-link bindtap="showOperationList"/> -->
 
 <van-button class="{{isChange ? 'button button1 buttonChanged1' : 'button button1'}}" block type="info" round color="#000" bindtap="commitChange">提交修改</van-button>
 <van-button class="{{isChange ? 'button button2 buttonChanged2' : 'button button2'}}" block type="danger" round bindtap="remove">删除物品</van-button>
