@@ -1,1 +1,6 @@
 /* pages/record/index.wxss */
+
+/* .dropdownMenu{
+  position:sticky;
+  top: 0;
+} */

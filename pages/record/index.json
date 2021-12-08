@@ -3,8 +3,14 @@
     "van-cell": "@vant/weapp/cell/index",
     "van-tag": "@vant/weapp/tag/index",
     "van-dialog": "@vant/weapp/dialog/index",
-    "van-notice-bar": "@vant/weapp/notice-bar/index"
+    "van-notice-bar": "@vant/weapp/notice-bar/index",
+    "van-dropdown-menu": "@vant/weapp/dropdown-menu/index",
+    "van-dropdown-item": "@vant/weapp/dropdown-item/index",
+    "van-switch": "@vant/weapp/switch/index",
+    "van-calendar": "@vant/weapp/calendar/index",
+    "van-button": "@vant/weapp/button/index",
+    "van-empty": "@vant/weapp/empty/index"
   },
-  "enablePullDownRefresh":true,
-  "onReachBottomDistance":100
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": 100
 }

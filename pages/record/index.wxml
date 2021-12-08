@@ -1,26 +1,39 @@
 <!--pages/record/index.wxml-->
-<van-notice-bar
+<!-- <van-notice-bar
   left-icon="volume-o"
   text="下拉页面刷新"
   mode='closeable'
-/>
-<van-cell wx:for="{{operationList}}" wx:for-index="index" wx:for-item="item" wx:key="index" center
-  label="{{item.date}}"
-  value="{{item.operateType === 'add' ? item.num + item.unit : ''}}"
-  is-link="{{item.operateType === 'updata'}}"
-  clickable="{{item.operateType === 'updata'}}"
-  data-type="{{item.operateType}}"
-  data-olddata = "{{item.operateType === 'updata' ? item.oldData : ''}}"
-  data-newdata = "{{item.operateType === 'updata' ? item.newData : ''}}"
-  bind:click="showUpdataDetail"
-  >
+/> -->
+<van-dropdown-menu class="dropdownMenu">
+  <van-dropdown-item model:value="{{ value1 }}" options="{{ option1 }}" bind:change="onConfirm" />
+  <van-dropdown-item title="{{switch1_isAlltime ? '全部时间' : (switch2_isToday ? '只看今天' : '自定义时间')}}" value="{{ value2 }}" options="{{ option2 }}">
+    <van-cell title="全部时间">
+      <van-switch slot="right-icon" size="24px" style="height: 26px" checked="{{ switch1_isAlltime }}" active-color="#ee0a24" bind:change="onSwitch1Change" />
+    </van-cell>
+    <van-cell title="只看今天">
+      <van-switch slot="right-icon" size="24px" style="height: 26px" checked="{{ switch2_isToday }}" active-color="#ee0a24" bind:change="onSwitch2Change" />
+    </van-cell>
+    <van-cell wx:if="{{ !switch1_isAlltime && !switch2_isToday }}" title="选择日期区间" value="{{ calendarDate }}" bind:click="onCalendarDisplay" />
+    <van-calendar show="{{ calendarShow }}" type="range" min-date="{{ minDate }}" bind:close="onCalendarClose" bind:confirm="onCalendarConfirm" allow-same-day />
+    <van-cell title="是否倒序">
+      <van-switch slot="right-icon" size="24px" style="height: 26px" checked="{{ switch3_isDesc }}" active-color="#ee0a24" bind:change="onSwitch3Change" />
+    </van-cell>
+    <view style="padding: 5px 16px;">
+      <van-button type="danger" block size="small" round bind:click="onConfirm">
+        确认
+      </van-button>
+    </view>
+  </van-dropdown-item>
+</van-dropdown-menu>
+<van-cell wx:for="{{operationList}}" wx:for-index="index" wx:for-item="item" wx:key="index" center label="{{item.date}}" value="{{item.operateType === 'add' ? item.num + item.unit : ''}}" is-link="{{item.operateType === 'updata'}}" clickable="{{item.operateType === 'updata'}}" data-type="{{item.operateType}}" data-olddata="{{item.operateType === 'updata' ? item.oldData : ''}}" data-newdata="{{item.operateType === 'updata' ? item.newData : ''}}" bind:click="showUpdataDetail">
   <view slot="title">
     <view class="van-cell-text">
-    {{item.operateType === 'updata' ? item.oldData.name : item.name}}
+      {{item.operateType === 'updata' ? item.oldData.name : item.name}}
       <van-tag wx:if="{{item.operateType === 'updata'}}" round style="margin-left: 20rpx;" color="#eee" text-color="#000">{{item.oldData.spec}}</van-tag>
       <van-tag wx:else round style="margin-left: 20rpx;" color="#eee" text-color="#000">{{item.spec}}</van-tag>
       <van-tag round style="margin-left: 20rpx;" color="{{item.operateType === 'add' ? 'green' : (item.operateType === 'delete' ? 'red' : 'blue')}}" text-color="#fff">{{item.operateName}}</van-tag>
     </view>
   </view>
 </van-cell>
+<van-empty wx:if="{{operationList.length === 0}}" description="暂无记录" />
 <van-dialog id="van-dialog" />
