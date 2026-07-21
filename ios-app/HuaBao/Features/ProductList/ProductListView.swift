@@ -45,16 +45,6 @@ struct ProductListView: View {
         }
         .navigationTitle("华宝五金")
         .searchable(text: $keyword, prompt: "名称 / 代码 / 规格")
-        .safeAreaInset(edge: .bottom) {
-            if !products.isEmpty {
-                Text(isSearching ? "共 \(filteredProducts.count) 条结果" : "共 \(products.count) 条数据")
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 6)
-                    .background(.bar)
-            }
-        }
         .overlay {
             if products.isEmpty {
                 ContentUnavailableView("暂无商品", systemImage: "tray", description: Text("点击右上角导入云数据库导出文件"))

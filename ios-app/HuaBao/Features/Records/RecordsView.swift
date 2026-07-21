@@ -8,6 +8,7 @@ struct RecordsView: View {
 
     @State private var viewModel = RecordsViewModel()
     @State private var showCustomDateSheet = false
+    @State private var showClearSheet = false
     @State private var selectedUpdata: OperationRecord?
 
     private var filtered: [OperationRecord] {
@@ -31,6 +32,13 @@ struct RecordsView: View {
         }
         .navigationTitle("记录")
         .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button {
+                    showClearSheet = true
+                } label: {
+                    Label("清除", systemImage: "trash")
+                }
+            }
             ToolbarItem(placement: .topBarTrailing) {
                 Menu {
                     Picker("类型", selection: $viewModel.type) {
@@ -70,7 +78,9 @@ struct RecordsView: View {
             NavigationStack {
                 Form {
                     DatePicker("开始日期", selection: $viewModel.customStart, displayedComponents: .date)
+                        .environment(\.locale, Locale(identifier: "zh_CN"))
                     DatePicker("结束日期", selection: $viewModel.customEnd, displayedComponents: .date)
+                        .environment(\.locale, Locale(identifier: "zh_CN"))
                 }
                 .navigationTitle("自定义区间")
                 .toolbar {
@@ -84,6 +94,9 @@ struct RecordsView: View {
         .sheet(item: $selectedUpdata) { record in
             UpdataDetailView(record: record)
                 .presentationDetents([.fraction(0.75), .large])
+        }
+        .sheet(isPresented: $showClearSheet) {
+            ClearRecordsView()
         }
     }
 }
