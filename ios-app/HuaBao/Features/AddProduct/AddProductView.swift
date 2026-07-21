@@ -1,8 +1,9 @@
 import SwiftUI
 
-/// 「增加」页：新增商品表单（对应小程序 pages/add）
+/// 「增加」页：新增商品表单（对应小程序 pages/add），以 sheet 形式从首页打开
 struct AddProductView: View {
     @Environment(\.modelContext) private var context
+    @Environment(\.dismiss) private var dismiss
     @State private var viewModel = AddProductViewModel()
 
     var body: some View {
@@ -27,6 +28,11 @@ struct AddProductView: View {
             }
         }
         .navigationTitle("增加")
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+                Button("取消") { dismiss() }
+            }
+        }
         .alert(viewModel.isSuccess ? "成功" : "提示",
                isPresented: Binding(
                 get: { viewModel.alertMessage != nil },

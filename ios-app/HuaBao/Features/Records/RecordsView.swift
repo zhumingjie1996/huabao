@@ -83,7 +83,7 @@ struct RecordsView: View {
         }
         .sheet(item: $selectedUpdata) { record in
             UpdataDetailView(record: record)
-                .presentationDetents([.medium])
+                .presentationDetents([.fraction(0.75), .large])
         }
     }
 }

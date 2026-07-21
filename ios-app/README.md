@@ -37,8 +37,7 @@ xcodebuild -project ios-app/HuaBaoApp.xcodeproj -scheme HuaBao \
 
 ## 功能（与小程序一致）
 
-- **全部**：按首字母 A-Z 分组索引的商品列表，底部显示总条数
-- **搜索**：按名称 / 名称代码 / 规格模糊匹配
+- **全部**：顶部搜索（名称 / 名称代码 / 规格模糊匹配）+ 按首字母 A-Z 分组索引的商品列表，底部显示总条数；右上角「+」新增商品、「导入」进入数据管理
 - **增加**：新增商品（全字段必填，按 名称+规格 查重），自动写入「新增」操作记录
 - **详情**：修改数量（步进器）/ 价格，删除商品（二次确认），自动写入「修改」（带新旧数据）/「删除」操作记录
 - **记录**：操作记录列表，支持按类型（新增/修改/删除）、时间（全部/今天/自定义区间）、正倒序筛选；修改记录可查看新旧数据对比
@@ -56,8 +55,7 @@ ios-app/
    │  ├─ Models/OperationRecord.swift      # 操作记录（对应 operationList）
    │  └─ Import/CloudDataImporter.swift    # JSONL 解析 / $date 日期 / 去重
    ├─ Features/
-   │  ├─ ProductList/    # 全部
-   │  ├─ Search/         # 搜索
+   │  ├─ ProductList/    # 全部（含顶部搜索）
    │  ├─ AddProduct/     # 增加
    │  ├─ ProductDetail/  # 详情
    │  ├─ Records/        # 记录

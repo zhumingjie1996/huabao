@@ -22,20 +22,6 @@ struct RootTabView: View {
             }
 
             NavigationStack {
-                SearchView()
-            }
-            .tabItem {
-                Label("搜索", systemImage: "magnifyingglass")
-            }
-
-            NavigationStack {
-                AddProductView()
-            }
-            .tabItem {
-                Label("增加", systemImage: "plus.circle")
-            }
-
-            NavigationStack {
                 RecordsView()
             }
             .tabItem {
