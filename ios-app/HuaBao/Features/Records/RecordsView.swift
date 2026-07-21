@@ -14,6 +14,11 @@ struct RecordsView: View {
         viewModel.apply(to: records)
     }
 
+    /// 有非默认筛选时高亮筛选按钮
+    private var hasActiveFilter: Bool {
+        viewModel.type != .all || viewModel.timeScope != .all || viewModel.ascending
+    }
+
     var body: some View {
         List(filtered) { record in
             RecordRow(record: record)
@@ -25,45 +30,41 @@ struct RecordsView: View {
                 }
         }
         .navigationTitle("记录")
-        .safeAreaInset(edge: .top) {
-            VStack(spacing: 8) {
-                Picker("类型", selection: $viewModel.type) {
-                    ForEach(OperateType.allCases) { type in
-                        Text(type.title).tag(type)
-                    }
-                }
-                .pickerStyle(.segmented)
-
-                HStack {
-                    Menu {
-                        ForEach(TimeScope.allCases) { scope in
-                            Button(scope.title) {
-                                viewModel.timeScope = scope
-                                if scope == .custom { showCustomDateSheet = true }
-                            }
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Menu {
+                    Picker("类型", selection: $viewModel.type) {
+                        ForEach(OperateType.allCases) { type in
+                            Text(type.title).tag(type)
                         }
-                    } label: {
-                        Label(viewModel.timeScope.title, systemImage: "calendar")
-                            .font(.subheadline)
                     }
-                    Spacer()
+
+                    Picker("时间", selection: $viewModel.timeScope) {
+                        ForEach(TimeScope.allCases) { scope in
+                            Text(scope.title).tag(scope)
+                        }
+                    }
+
                     Button {
                         viewModel.ascending.toggle()
                     } label: {
                         Label(viewModel.ascending ? "正序" : "倒序",
                               systemImage: viewModel.ascending ? "arrow.up" : "arrow.down")
-                            .font(.subheadline)
                     }
+                } label: {
+                    Label("筛选", systemImage: hasActiveFilter
+                        ? "line.3.horizontal.decrease.circle.fill"
+                        : "line.3.horizontal.decrease.circle")
                 }
             }
-            .padding(.horizontal)
-            .padding(.vertical, 8)
-            .background(.bar)
         }
         .overlay {
             if filtered.isEmpty {
                 ContentUnavailableView("暂无记录", systemImage: "clock")
             }
+        }
+        .onChange(of: viewModel.timeScope) { _, newValue in
+            if newValue == .custom { showCustomDateSheet = true }
         }
         .sheet(isPresented: $showCustomDateSheet) {
             NavigationStack {

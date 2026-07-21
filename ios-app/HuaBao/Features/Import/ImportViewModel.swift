@@ -8,6 +8,19 @@ final class ImportViewModel {
     var resultText: String?
     var errorMessage: String?
 
+    var exportURLs: [URL] = []
+    var showExporter = false
+
+    /// 导出为与云开发格式一致的两个 JSONL 文件，并调出分享面板
+    func export(products: [Product], records: [OperationRecord]) {
+        do {
+            exportURLs = try CloudDataExporter.exportFiles(products: products, records: records)
+            showExporter = true
+        } catch {
+            errorMessage = "导出失败：\(error.localizedDescription)"
+        }
+    }
+
     func importFiles(_ urls: [URL], context: ModelContext) {
         guard !urls.isEmpty else { return }
         isImporting = true
