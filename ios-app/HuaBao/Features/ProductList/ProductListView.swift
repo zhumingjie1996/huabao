@@ -44,7 +44,7 @@ struct ProductListView: View {
             }
         }
         .navigationTitle("华宝五金")
-        .searchable(text: $keyword, prompt: "名称 / 代码 / 规格")
+        .searchable(text: $keyword, placement: .navigationBarDrawer(displayMode: .always), prompt: "名称 / 代码 / 规格")
         .overlay {
             if products.isEmpty {
                 ContentUnavailableView("暂无商品", systemImage: "tray", description: Text("点击右上角导入云数据库导出文件"))
