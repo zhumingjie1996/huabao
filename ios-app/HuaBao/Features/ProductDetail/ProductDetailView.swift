@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// 商品详情页：查看全部字段，修改数量/价格，删除商品（对应小程序 pages/productionDetail）
+/// 商品详情页：查看并修改全部字段（名称/名称代码/规格/单位/数量/价格），删除商品（对应小程序 pages/productionDetail）
 struct ProductDetailView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
@@ -18,10 +18,30 @@ struct ProductDetailView: View {
     var body: some View {
         Form {
             Section("商品信息") {
-                LabeledContent("名称", value: product.name)
-                LabeledContent("名称代码", value: product.nameCode)
-                LabeledContent("规格", value: product.spec)
-                LabeledContent("单位", value: product.unit)
+                HStack {
+                    Text("名称")
+                    Spacer()
+                    TextField("名称", text: $viewModel.name)
+                        .multilineTextAlignment(.trailing)
+                }
+                HStack {
+                    Text("名称代码")
+                    Spacer()
+                    TextField("名称代码", text: $viewModel.nameCode)
+                        .multilineTextAlignment(.trailing)
+                }
+                HStack {
+                    Text("规格")
+                    Spacer()
+                    TextField("规格", text: $viewModel.spec)
+                        .multilineTextAlignment(.trailing)
+                }
+                HStack {
+                    Text("单位")
+                    Spacer()
+                    TextField("单位", text: $viewModel.unit)
+                        .multilineTextAlignment(.trailing)
+                }
             }
             Section("库存与价格") {
                 Stepper(value: $viewModel.num, step: 1) {
@@ -41,28 +61,28 @@ struct ProductDetailView: View {
                         .frame(width: 120)
                 }
             }
-            if viewModel.isChanged {
-                Section {
-                    Button("提交修改") {
-                        do {
-                            try viewModel.commit(product: product, context: context)
-                            viewModel = ProductDetailViewModel(product: product)
-                            alertMessage = "修改成功"
-                        } catch {
-                            alertMessage = "保存失败：\(error.localizedDescription)"
-                        }
-                    }
-                    .frame(maxWidth: .infinity)
-                }
-            }
             Section {
-                Button("删除商品", role: .destructive) {
-                    showDeleteConfirm = true
+                Button("提交修改") {
+                    do {
+                        try viewModel.commit(product: product, context: context)
+                        viewModel = ProductDetailViewModel(product: product)
+                        alertMessage = "修改成功"
+                    } catch {
+                        alertMessage = "保存失败：\(error.localizedDescription)"
+                    }
                 }
                 .frame(maxWidth: .infinity)
+                .disabled(!viewModel.isChanged)
             }
         }
         .navigationTitle(product.name)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button("删除", systemImage: "trash", role: .destructive) {
+                    showDeleteConfirm = true
+                }
+            }
+        }
         .confirmationDialog("确定删除？", isPresented: $showDeleteConfirm, titleVisibility: .visible) {
             Button("删除", role: .destructive) {
                 do {
