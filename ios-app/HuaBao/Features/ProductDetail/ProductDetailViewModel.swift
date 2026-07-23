@@ -3,26 +3,53 @@ import SwiftData
 
 @Observable
 final class ProductDetailViewModel {
+    var name: String
+    var nameCode: String
+    var spec: String
+    var unit: String
     var num: Double
     var price: String
 
+    private let originalName: String
+    private let originalNameCode: String
+    private let originalSpec: String
+    private let originalUnit: String
     private let originalNum: Double
     private let originalPrice: String
 
     /// 对应小程序 isChange：改动过才允许提交
     var isChanged: Bool {
+        name != originalName || nameCode != originalNameCode ||
+        spec != originalSpec || unit != originalUnit ||
         num != originalNum || price != originalPrice
     }
 
     init(product: Product) {
+        self.name = product.name
+        self.nameCode = product.nameCode
+        self.spec = product.spec
+        self.unit = product.unit
         self.num = product.num
         self.price = product.price
+        self.originalName = product.name
+        self.originalNameCode = product.nameCode
+        self.originalSpec = product.spec
+        self.originalUnit = product.unit
         self.originalNum = product.num
         self.originalPrice = product.price
     }
 
-    /// 对应云端 updataProduction：更新 num/price，并写一条带 oldData/newData 的 updata 记录
+    /// 对应云端 updataProduction：更新商品字段，并写一条带 oldData/newData 的 updata 记录
     func commit(product: Product, context: ModelContext) throws {
+        let trimmedName = name.trimmingCharacters(in: .whitespaces)
+        let trimmedNameCode = nameCode.trimmingCharacters(in: .whitespaces)
+        let trimmedSpec = spec.trimmingCharacters(in: .whitespaces)
+        let trimmedUnit = unit.trimmingCharacters(in: .whitespaces)
+        guard !trimmedName.isEmpty, !trimmedNameCode.isEmpty,
+              !trimmedSpec.isEmpty, !trimmedUnit.isEmpty else {
+            throw CommitError.emptyField
+        }
+
         let oldData: [String: Any] = [
             "_id": product.id,
             "initials": product.initials,
@@ -35,10 +62,19 @@ final class ProductDetailViewModel {
         ]
         let newData: [String: Any] = [
             "id": product.id,
+            "name": trimmedName,
+            "nameCode": trimmedNameCode,
+            "spec": trimmedSpec,
+            "unit": trimmedUnit,
             "num": num,
             "price": price
         ]
 
+        product.name = trimmedName
+        product.nameCode = trimmedNameCode
+        product.initials = String(trimmedNameCode.prefix(1)).uppercased()
+        product.spec = trimmedSpec
+        product.unit = trimmedUnit
         product.num = num
         product.price = price
 
@@ -75,5 +111,15 @@ final class ProductDetailViewModel {
     static func jsonString(_ dict: [String: Any]) -> String? {
         guard let data = try? JSONSerialization.data(withJSONObject: dict) else { return nil }
         return String(data: data, encoding: .utf8)
+    }
+
+    enum CommitError: LocalizedError {
+        case emptyField
+
+        var errorDescription: String? {
+            switch self {
+            case .emptyField: return "请完善信息"
+            }
+        }
     }
 }
