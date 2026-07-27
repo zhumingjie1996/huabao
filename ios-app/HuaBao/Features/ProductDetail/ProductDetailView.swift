@@ -80,6 +80,13 @@ struct ProductDetailView: View {
                 .disabled(!viewModel.isChanged)
             }
         }
+        // 点击空白处收起键盘（让当前输入框失去焦点）；
+        // 用 simultaneousGesture 避免拦截按钮的点击事件
+        .simultaneousGesture(
+            TapGesture().onEnded {
+                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+            }
+        )
         .navigationTitle(product.name)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
