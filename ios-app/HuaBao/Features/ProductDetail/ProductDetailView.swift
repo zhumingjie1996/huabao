@@ -44,13 +44,18 @@ struct ProductDetailView: View {
                 }
             }
             Section("库存与价格") {
-                Stepper(value: $viewModel.num, step: 1) {
-                    HStack {
-                        Text("数量")
-                        Spacer()
-                        Text(Formatters.num(viewModel.num))
-                            .foregroundStyle(.secondary)
-                    }
+                HStack {
+                    Text("数量")
+                    Spacer()
+                    TextField("数量", text: $viewModel.numText)
+                        .keyboardType(.decimalPad)
+                        .multilineTextAlignment(.trailing)
+                        .frame(width: 100)
+                    Stepper("", value: Binding(
+                        get: { viewModel.parsedNum ?? 0 },
+                        set: { viewModel.numText = Formatters.num($0) }
+                    ), step: 1)
+                    .labelsHidden()
                 }
                 HStack {
                     Text("价格")
