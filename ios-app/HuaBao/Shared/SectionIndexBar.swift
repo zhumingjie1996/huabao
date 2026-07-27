@@ -6,25 +6,44 @@ struct SectionIndexBar: View {
     let onSelect: (String) -> Void
 
     private let rowHeight: CGFloat = 16
-    private let verticalPadding: CGFloat = 4
+    private let verticalPadding: CGFloat = 6
+
+    @State private var activeTitle: String?
 
     var body: some View {
-        VStack(spacing: 2) {
+        VStack(spacing: 1) {
             ForEach(titles, id: \.self) { title in
                 Text(title)
-                    .font(.system(size: 11, weight: .medium))
-                    .foregroundStyle(Color.accentColor)
-                    .frame(width: 20, height: rowHeight - 2)
+                    .font(.system(size: 11, weight: .semibold))
+                    .foregroundStyle(title == activeTitle ? Color.white : Color.accentColor)
+                    .frame(width: 22, height: rowHeight - 1)
+                    .background {
+                        if title == activeTitle {
+                            Circle()
+                                .fill(Color.accentColor)
+                                .frame(width: 16, height: 16)
+                        }
+                    }
             }
         }
         .padding(.vertical, verticalPadding)
+        .padding(.horizontal, 2)
+        .background(.ultraThinMaterial, in: Capsule())
+        .shadow(color: .black.opacity(0.08), radius: 4, y: 2)
         .contentShape(Rectangle())
         .gesture(
             DragGesture(minimumDistance: 0)
                 .onChanged { value in
                     let index = Int((value.location.y - verticalPadding) / rowHeight)
                     guard titles.indices.contains(index) else { return }
-                    onSelect(titles[index])
+                    let title = titles[index]
+                    if title != activeTitle {
+                        activeTitle = title
+                        onSelect(title)
+                    }
+                }
+                .onEnded { _ in
+                    activeTitle = nil
                 }
         )
         .accessibilityLabel("首字母索引")

@@ -52,7 +52,7 @@ struct ProductListView: View {
                             proxy.scrollTo(title, anchor: .top)
                         }
                     }
-                    .padding(.trailing, 2)
+                    .padding(.trailing, 6)
                 }
             }
             .navigationTitle("华宝五金")
