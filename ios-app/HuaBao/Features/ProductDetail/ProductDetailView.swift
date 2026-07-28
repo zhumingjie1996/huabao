@@ -66,19 +66,28 @@ struct ProductDetailView: View {
                         .frame(width: 120)
                 }
             }
-            Section {
-                Button("提交修改") {
-                    do {
-                        try viewModel.commit(product: product, context: context)
-                        viewModel = ProductDetailViewModel(product: product)
-                        alertMessage = "修改成功"
-                    } catch {
-                        alertMessage = "保存失败：\(error.localizedDescription)"
-                    }
+        }
+        // 提交按钮固定在底部、独立于表单，避免与列表手势冲突导致点不到
+        .safeAreaInset(edge: .bottom) {
+            Button {
+                do {
+                    try viewModel.commit(product: product, context: context)
+                    viewModel = ProductDetailViewModel(product: product)
+                    alertMessage = "修改成功"
+                } catch {
+                    alertMessage = "保存失败：\(error.localizedDescription)"
                 }
-                .frame(maxWidth: .infinity)
-                .disabled(!viewModel.isChanged)
+            } label: {
+                Text("提交修改")
+                    .font(.headline)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 6)
             }
+            .buttonStyle(.borderedProminent)
+            .disabled(!viewModel.isChanged)
+            .padding(.horizontal)
+            .padding(.vertical, 8)
+            .background(.bar)
         }
         // 点击空白处收起键盘（让当前输入框失去焦点）；
         // 用 simultaneousGesture 避免拦截按钮的点击事件
