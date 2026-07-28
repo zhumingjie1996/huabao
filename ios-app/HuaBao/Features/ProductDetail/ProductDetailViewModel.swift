@@ -7,7 +7,8 @@ final class ProductDetailViewModel {
     var nameCode: String
     var spec: String
     var unit: String
-    var num: Double
+    /// 数量用字符串持有，支持直接输入；Stepper 通过解析值增减
+    var numText: String
     var price: String
 
     private let originalName: String
@@ -17,11 +18,16 @@ final class ProductDetailViewModel {
     private let originalNum: Double
     private let originalPrice: String
 
+    /// 输入的数量解析结果，非法输入为 nil
+    var parsedNum: Double? {
+        Double(numText.trimmingCharacters(in: .whitespaces))
+    }
+
     /// 对应小程序 isChange：改动过才允许提交
     var isChanged: Bool {
         name != originalName || nameCode != originalNameCode ||
         spec != originalSpec || unit != originalUnit ||
-        num != originalNum || price != originalPrice
+        parsedNum != originalNum || price != originalPrice
     }
 
     init(product: Product) {
@@ -29,7 +35,7 @@ final class ProductDetailViewModel {
         self.nameCode = product.nameCode
         self.spec = product.spec
         self.unit = product.unit
-        self.num = product.num
+        self.numText = Formatters.num(product.num)
         self.price = product.price
         self.originalName = product.name
         self.originalNameCode = product.nameCode
@@ -49,6 +55,9 @@ final class ProductDetailViewModel {
               !trimmedSpec.isEmpty, !trimmedUnit.isEmpty else {
             throw CommitError.emptyField
         }
+        guard let numValue = parsedNum else {
+            throw CommitError.invalidNum
+        }
 
         let oldData: [String: Any] = [
             "_id": product.id,
@@ -66,7 +75,7 @@ final class ProductDetailViewModel {
             "nameCode": trimmedNameCode,
             "spec": trimmedSpec,
             "unit": trimmedUnit,
-            "num": num,
+            "num": numValue,
             "price": price
         ]
 
@@ -75,7 +84,7 @@ final class ProductDetailViewModel {
         product.initials = String(trimmedNameCode.prefix(1)).uppercased()
         product.spec = trimmedSpec
         product.unit = trimmedUnit
-        product.num = num
+        product.num = numValue
         product.price = price
 
         let record = OperationRecord(
@@ -115,10 +124,12 @@ final class ProductDetailViewModel {
 
     enum CommitError: LocalizedError {
         case emptyField
+        case invalidNum
 
         var errorDescription: String? {
             switch self {
             case .emptyField: return "请完善信息"
+            case .invalidNum: return "数量必须是数字"
             }
         }
     }

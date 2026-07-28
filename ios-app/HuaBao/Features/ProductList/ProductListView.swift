@@ -32,18 +32,30 @@ struct ProductListView: View {
     }
 
     var body: some View {
-        List {
-            ForEach(grouped, id: \.0) { initial, items in
-                Section(header: Text(initial)) {
-                    ForEach(items) { product in
-                        NavigationLink(destination: ProductDetailView(product: product)) {
-                            ProductRow(product: product)
+        ScrollViewReader { proxy in
+            List {
+                ForEach(grouped, id: \.0) { initial, items in
+                    Section(header: Text(initial)) {
+                        ForEach(items) { product in
+                            NavigationLink(destination: ProductDetailView(product: product)) {
+                                ProductRow(product: product)
+                            }
                         }
                     }
+                    .id(initial)
                 }
             }
-        }
-        .navigationTitle("华宝五金")
+            .overlay(alignment: .trailing) {
+                if grouped.count > 1 {
+                    SectionIndexBar(titles: grouped.map(\.0)) { title in
+                        withAnimation {
+                            proxy.scrollTo(title, anchor: .top)
+                        }
+                    }
+                    .padding(.trailing, 6)
+                }
+            }
+            .navigationTitle("华宝五金")
         .searchable(text: $keyword, placement: .navigationBarDrawer(displayMode: .always), prompt: "名称 / 代码 / 规格")
         .overlay {
             if products.isEmpty {
@@ -77,6 +89,7 @@ struct ProductListView: View {
             NavigationStack {
                 AddProductView()
             }
+        }
         }
     }
 }
